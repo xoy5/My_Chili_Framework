@@ -36,9 +36,9 @@ void Game::Go()
 	ProcessInput();
 	float elapsedTime = ft.Mark();
 	while (elapsedTime > 0.0f) {
-			const float dt = std::min(precision, elapsedTime);
-			UpdateModel(dt * speedSymulation);
-			elapsedTime -= dt;
+		const float dt = std::min(precision, elapsedTime);
+		UpdateModel(dt);
+		elapsedTime -= dt;
 	}
 	ComposeFrame();
 	gfx.EndFrame();
