@@ -47,6 +47,8 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+	FrameTimer ft;
+	float precision = 0.01f;
 	/********************************/
 	/*  User Variables              */
 
