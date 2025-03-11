@@ -26,7 +26,7 @@
 #include <math.h>
 #include <string>
 #include <array>
-#include "Xoy5Math.h"
+#include "GameMath.h"
 
 // Ignore the intellisense error "cannot open source file" for .shh files.
 // They will be created during the build sequence before the preprocessor runs.
@@ -356,7 +356,7 @@ void Graphics::DrawLine(const Vei2& p, const Vei2& q, int thickness, const Color
 		if (thickness == 1 || i % 2 == 0) {
 			for (int x = 0; x < thickness; x++) {
 				for (int y = 0; y < thickness; y++) {
-					PutPixel(cur.x + x - thicknessCenter, cur.y + y - thicknessCenter, c);
+					PutPixel(int(cur.x) + x - thicknessCenter, int(cur.y) + y - thicknessCenter, c);
 				}
 			}
 		}	
@@ -366,8 +366,8 @@ void Graphics::DrawLine(const Vei2& p, const Vei2& q, int thickness, const Color
 
 void Graphics::DrawCircle(const Vei2& pos, float radius, const Color& c, float angleStart, float angleEnd)
 {
-	angleStart = xoy5::deg360(angleStart);
-	angleEnd = xoy5::deg360(angleEnd);
+	angleStart = gm::deg360(angleStart);
+	angleEnd = gm::deg360(angleEnd);
 
 	const float epsilon = 0.0001f;
 
@@ -376,16 +376,16 @@ void Graphics::DrawCircle(const Vei2& pos, float radius, const Color& c, float a
 		angleEnd = 360.0f;
 	}
 
-	const int roundedRadius = std::round(radius);
-	const int radiusPow2 = std::pow(radius, 2);
+	const int roundedRadius = int(std::round(radius));
+	const int radiusPow2 = int(std::pow(radius, 2));
 
 	// to do: add drawing rect inside circle
 	for (int y = -roundedRadius; y <= roundedRadius; y++) {
 		for (int x = -roundedRadius; x <= roundedRadius; x++) {
-			Vec2 vec = Vec2(x, y);
+			Vec2 vec = Vec2(float(x), float(y));
 			float r = vec.x * vec.x + vec.y * vec.y;
 			if (r <= radiusPow2) {
-				float alfa = xoy5::deg360(xoy5::rtod(std::atan2(vec.y, vec.x)));
+				float alfa = gm::deg360(gm::rtod(std::atan2(vec.y, vec.x)));
 				if ((angleStart <= angleEnd && angleStart <= alfa && alfa <= angleEnd) ||
 					(angleStart > angleEnd && (alfa >= angleStart || alfa <= angleEnd)) ) {
 					PutPixel(pos.x + x, pos.y + y, c);
@@ -398,7 +398,7 @@ void Graphics::DrawCircle(const Vei2& pos, float radius, const Color& c, float a
 void Graphics::DrawCircleOutline(const Vei2& center, float radius, const Color& c, int thickness, int segments)
 {
 	assert(segments >= 4);
-	const float step = 2.0f * xoy5::PI / segments;
+	const float step = 2.0f * gm::PI / segments;
 	for (int i = 0; i < segments; i++)
 	{
 		float angle1 = step * i;

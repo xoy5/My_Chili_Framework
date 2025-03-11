@@ -22,12 +22,12 @@
 #include "ChiliWin.h"
 #include <d3d11.h>
 #include <wrl.h>
+#include <vector>
 #include <cassert>
 #include "ChiliException.h"
 #include "Colors.h"
 #include "Surface.h"
 #include "Rect.h"
-#include "vector"
 
 class Graphics
 {
@@ -136,8 +136,8 @@ private:
 	D3D11_MAPPED_SUBRESOURCE							mappedSysBufferTexture;
 	Color*                                              pSysBuffer = nullptr;
 public:
-	static constexpr int ScreenWidth = 800;
-	static constexpr int ScreenHeight = 600;
+	static constexpr int ScreenWidth  = 800; // or 640
+	static constexpr int ScreenHeight = 600; // or 360
 	static RectI GetScreenRect();
 	static Vei2 GetScreenCenter();
 };

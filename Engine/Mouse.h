@@ -46,6 +46,7 @@ public:
 		bool rightIsPressed;
 		int x;
 		int y;
+		bool leftIsClickedAlready;
 	public:
 		Event()
 			:
@@ -53,15 +54,17 @@ public:
 			leftIsPressed( false ),
 			rightIsPressed( false ),
 			x( 0 ),
-			y( 0 )
+			y( 0 ),
+			leftIsClickedAlready(false)
 		{}
-		Event( Type type,const Mouse& parent )
+		Event(Type type, const Mouse& parent)
 			:
-			type( type ),
-			leftIsPressed( parent.leftIsPressed ),
-			rightIsPressed( parent.rightIsPressed ),
-			x( parent.x ),
-			y( parent.y )
+			type(type),
+			leftIsPressed(parent.leftIsPressed),
+			rightIsPressed(parent.rightIsPressed),
+			x(parent.x),
+			y(parent.y),
+			leftIsClickedAlready(parent.leftIsClickedAlready)
 		{}
 		bool IsValid() const
 		{
@@ -86,6 +89,10 @@ public:
 		bool LeftIsPressed() const
 		{
 			return leftIsPressed;
+		}
+		bool leftIsPressedAndIsntClickedAlready() const
+		{
+			return leftIsPressed && !leftIsClickedAlready;
 		}
 		bool RightIsPressed() const
 		{
@@ -121,9 +128,10 @@ private:
 	void TrimBuffer();
 private:
 	static constexpr unsigned int bufferSize = 4u;
-	int x;
-	int y;
+	int x = 0;
+	int y = 0;
 	bool leftIsPressed = false;
+	bool leftIsClickedAlready = false;
 	bool rightIsPressed = false;
 	bool isInWindow = false;
 	std::queue<Event> buffer;
